@@ -1,0 +1,191 @@
+// Constructing a router instance.
+const express = require('express');
+const router = express.Router();
+const User = require('../models').User;
+const Courses = require('../models').Courses;
+const bcryptjs = require('bcryptjs');
+const auth = require('basic-auth')
+
+//User authentication middleware
+const authenticateUser = async (req, res, next) => {
+  let message;
+  // Parse the user's credentials from the Authorization header.
+  const credentials = auth(req);
+  if (credentials) {
+    //Find user with matching email address
+    const user = await User.findOne({
+      raw: true,
+      where: {
+        emailAddress: credentials.name,
+      },
+    });
+    //If user matches email
+    if (user) {
+      // Use the bcryptjs npm package to compare the user's password
+      // (from the Authorization header) to the user's password
+      // that was retrieved from the data store.
+      const authenticated = bcryptjs.compareSync(credentials.pass, user.password);
+      //If password matches
+      if (authenticated) {
+        console.log(`Authentication successful for user: ${user.firstName} ${user.lastName}`);
+        if (req.originalUrl.includes('courses')) {
+          //If route has a courses endpoint, set request userId to matched user id
+          req.body.userId = user.id;
+        } else if (req.originalUrl.includes('users')) {
+          //If route has a users endpoint, set request id to matched user id
+          req.body.id = user.id;
+        }
+      } else {
+        //Otherwise the Authentication failed
+        message = `Authentication failed for user: ${user.firstName} ${user.lastName}`;
+      }
+    } else {
+      // No email matching the Authorization header
+      message = `User not found for email address: ${credentials.name}`;
+    }
+  } else {
+    //No user credentials/authorization header available
+    message = 'Authorization header not found';
+  }
+  // Deny Access if there is anything stored in message
+  if (message) {
+    console.warn(message);
+    const err = new Error('Access Denied');
+    err.status = 401;
+    next(err);
+  } else {
+    //User authenticated
+    next();
+  }
+}
+
+
+// ************************* User Routes ****************************
+router.get('/users', authenticateUser, async (req, res, ) => {
+  const users = await User.findByPk(
+    req.body.id,
+    {
+      // Excludes unneeded private information 
+      attributes: {
+        exclude: ['password', 'createdAt', 'updatedAt']
+      }
+    }
+  )
+  res.json(users)
+
+});
+
+router.post('/users', async (req, res) => {
+  if (req.body.password) {
+    //hashes password
+    req.body.password = await bcryptjs.hashSync(req.body.password)
+    //creates new user & validations for new user
+    await User.create(req.body)
+    res.location('/')
+    res.status(201).end()
+  } else {
+    res.status(400).end()
+  }
+})
+
+//*************** Coures Routes ********************* */
+
+router.get('/courses', async (req, res, ) => {
+  const courses = await Courses.findAll({
+    
+    // Excludes unneeded private information 
+    attributes: {
+      exclude: ['password', 'createdAt', 'updatedAt']
+    },
+    include: [
+      {
+        model: User,
+        as: 'User'
+      },
+    ],
+  })
+  res.json(courses)
+  });
+
+router.get('/Courses/:id', async (req, res, next) => {
+  try {
+    const courseId = await Courses.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: [
+        {
+          model: User,
+          as: 'User'
+        },
+      ],
+    })
+    if (courseId === null) {
+      res.status(404)
+      res.json('No Course found')
+    }
+    else {
+      res.json(courseId)
+    }
+  } catch (err) {
+    console.log('500: Internal Server Error')
+  }
+})
+
+// Post Route with authentication for Course titles
+
+router.post('/Courses', authenticateUser, async (req, res, next) => {
+  try {
+    if (req.body.title && req.body.description) {
+      const newCourse = await Courses.create(req.body)
+      res.location(`/api/course/${newCourse.id}`)
+      res.status(201).end()
+    } else {
+      res.status(400).end()
+    }
+
+  }
+  catch (err) {
+    console.log('Status 500: Internal Server Error')
+  }
+})
+
+// Delete course route with user authentication 
+
+router.delete("/courses/:id", authenticateUser, async (req, res, next) => {
+  try {
+    const courseDelete = await Courses.findByPk(req.params.id)
+    if (courseDelete.userId === req.body.userId) {
+      await courseDelete.destroy();
+      res.status(204).end();
+    } else {
+      res.status(403).end();
+    };
+  }
+  catch (err) {
+    console.log("Forbidden: you are not the correct user")
+  }
+})
+
+//Put course route with user authentication 
+router.put('/courses/:id', authenticateUser, async (req, res, next) => {
+  try {
+    const courseUpdate = await Courses.findByPk(req.params.id);
+    if (courseUpdate.userId === req.body.userId) {
+      if (req.body.title && req.body.description) {
+        courseUpdate.update(req.body);
+        res.status(204).end()
+      } else {
+        res.status(400).end();
+      }
+
+    } else
+      res.status(403).end();
+  } catch (err) {
+    console.log("Error 500 - Internal Server Error- My bad yo")
+    next(err);
+  }
+})
+
+module.exports = router;
+
