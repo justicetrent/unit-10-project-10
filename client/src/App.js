@@ -2,6 +2,7 @@ import React from 'react';
 // import logo from './logo.svg';
 //import './App.css';
 import Courses from './components/Courses'
+import Header from './components/Header'
 import {
   BrowserRouter as Router,
   Route,
@@ -9,12 +10,15 @@ import {
 } from 'react-router-dom';
 
 import withContext from './context';
+//components added with context
 const CourseList = withContext(Courses)
+const HeaderContext = withContext(Header)
 
 
 export default () => (
   <Router>
     <div>
+      <Route render={({ location }) => <HeaderContext location={location.pathname} />} />
       <CourseList />
       <switch>
         <Route exact path = "/" component={ CourseList } />
