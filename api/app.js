@@ -3,6 +3,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const routes = require('./routes/routes')
+const cors = require('cors')
 // const sequelize = require('sequelize')
 const { sequelize } = require('./models')
 //create express app 
@@ -21,8 +22,8 @@ sequelize.authenticate().then( () => {
 // const data = require('../seed/data.json')
 // const userData = data.user
 
-
-
+//allows api to run simultaneously with client. 
+app.use(cors());
 
 
 // setup morgan which gives us http request logging
