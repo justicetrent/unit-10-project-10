@@ -3,6 +3,7 @@ import React from 'react';
 //import './App.css';
 import Courses from './components/Courses'
 import Header from './components/Header'
+import UserSignIn from './components/UserSignIn'
 import {
   BrowserRouter as Router,
   Route,
@@ -13,6 +14,7 @@ import withContext from './context';
 //components added with context
 const CourseList = withContext(Courses)
 const HeaderContext = withContext(Header)
+const UserSignInContext = withContext(UserSignIn);
 
 
 export default () => (
@@ -21,7 +23,8 @@ export default () => (
       <Route render={({ location }) => <HeaderContext location={location.pathname} />} />
       <CourseList />
       <switch>
-        <Route exact path = "/" component={ CourseList } />
+        <Route exact path="/" component={CourseList} />
+        <Route path="/signin" component={UserSignInContext} />
       </switch>
 
     </div>
