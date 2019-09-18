@@ -29,11 +29,11 @@ export default class UserSignIn extends Component {
                             <React.Fragment>
                                 <input
                                     id="email"
-                                    name="email"
+                                    name="firstName"
                                     type="text"
                                     value={email}
                                     onChange={this.change}
-                                    placeholder="User Name" />
+                                    placeholder="User Email" />
                                 <input
                                     id="password"
                                     name="password"
@@ -52,12 +52,12 @@ export default class UserSignIn extends Component {
     }
 
     change = (event) => {
-        const name = event.target.name;
+        const email = event.target.email;
         const value = event.target.value;
 
         this.setState(() => {
             return {
-                [name]: value
+                [email]: value
             };
         });
     }
