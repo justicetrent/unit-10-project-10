@@ -23,7 +23,7 @@ export default (props) => {
         <div>
             <ErrorsDisplay errors={errors} />
             <form onSubmit={handleSubmit}>
-                {elements()}
+                { elements() }
                 <div className="pad-bottom">
                     <button className="button" type="submit">{submitButtonText}</button>
                     <button className="button button-secondary" onClick={handleCancel}>Cancel</button>

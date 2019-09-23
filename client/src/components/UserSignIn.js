@@ -4,14 +4,46 @@ import Form from './Form';
 
 export default class UserSignIn extends Component {
     state = {
-        email: '',
+        emailAddress: '',
         password: '',
         errors: [],
     }
 
+    change = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+
+        this.setState(() => {
+            return {
+                [name]: value
+            };
+        });
+    }
+
+    submit = () => {
+        const { context } = this.props;
+        const { from } = this.props.location.state || { from: { pathname: '/' } };
+        const { emailAddress, password } = this.state;
+
+        context.actions.signIn(emailAddress, password)
+            .then((user) => {
+                if (user === null) {
+                    this.setState(() => {
+                        return { errors: ['Sign-in was unsuccessful'] };
+                    });
+                } else {
+                    this.props.history.push(from);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                this.props.history.push('/error');
+            });
+    }
+
     render() {
         const {
-            email,
+            emailAddress,
             password,
             errors,
         } = this.state;
@@ -28,12 +60,12 @@ export default class UserSignIn extends Component {
                         elements={() => (
                             <React.Fragment>
                                 <input
-                                    id="email"
-                                    name="firstName"
+                                    id="emailAddress"
+                                    name="emailAddress"
                                     type="text"
-                                    value={email}
+                                    value={emailAddress}
                                     onChange={this.change}
-                                    placeholder="User Email" />
+                                    placeholder="Email" />
                                 <input
                                     id="password"
                                     name="password"
@@ -50,39 +82,7 @@ export default class UserSignIn extends Component {
             </div>
         );
     }
-
-    change = (event) => {
-        const email = event.target.email;
-        const value = event.target.value;
-
-        this.setState(() => {
-            return {
-                [email]: value
-            };
-        });
-    }
-
-    submit = () => {
-        const { context } = this.props;
-        const { from } = this.props.location.state || { from: { pathname: '/authenticated' } };
-        const { email, password } = this.state;
-
-        context.actions.signIn(email, password)
-            .then((user) => {
-                if (user === null) {
-                    this.setState(() => {
-                        return { errors: ['Sign-in was unsuccessful'] };
-                    });
-                } else {
-                    this.props.history.push(from);
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-                this.props.history.push('/error');
-            });
-    }
-
+    
     cancel = () => {
         this.props.history.push('/');
     }

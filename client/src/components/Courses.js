@@ -23,13 +23,21 @@ class App extends React.Component {
                 {
                     this.state.courses.map(course => {
                         return (
-                            <ul key={course.id}>
-                                <li>{course.id}</li>
-                                <li>{course.title}</li>
-                                <li>{course.description}</li>
-                                <li>{course.estimatedTime}</li>
-                                <li>{course.materialsNeeded}</li>
-                            </ul>
+                            <div class="grid-33"><a class="course--module course--link" href="course-detail.html">
+                                <h4 class="course--label">Course</h4>
+                                <h3 class="course--title">Build a Basic Bookcase</h3>
+                                </a>
+                            </div>
+                            
+                            // <ul key={course.id}>
+                            //         <div>{course.id}</div>
+                            //         <div>{course.title}</div>
+                            //         <div>{course.description}</div>
+                            //         <div>{course.estimatedTime}</div>
+                            //     <div>{course.materialsNeeded}</div>
+                            // </ul>
+                            
+                        
                         );
                     })
                 }

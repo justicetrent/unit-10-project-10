@@ -1,6 +1,6 @@
 import React from 'react';
-// import logo from './logo.svg';
-//import './App.css';
+//import logo from './logo.svg';
+import './styles/global.css';
 import Courses from './components/Courses'
 import Header from './components/Header'
 import UserSignUp from './components/UserSignUp';
@@ -24,7 +24,7 @@ export default () => (
     <div>
       {/* <Route render={({ location }) => <HeaderContext location={location.pathname} />} /> */}
       <HeaderContext />
-      <CourseList />
+      
       <Switch>
         <Route exact path="/" component={CourseList} />
         <Route path="/signup" component={UserSignUpContext} />

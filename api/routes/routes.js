@@ -80,6 +80,7 @@ router.post('/users', async (req, res) => {
     //hashes password
     req.body.password = await bcryptjs.hashSync(req.body.password)
     //creates new user & validations for new user
+    console.log(req.body)
     await User.create(req.body)
     res.location('/')
     res.status(201).end()
@@ -92,7 +93,7 @@ router.post('/users', async (req, res) => {
 
 router.get('/courses', async (req, res, ) => {
   const courses = await Courses.findAll({
-    
+
     // Excludes unneeded private information 
     attributes: {
       exclude: ['password', 'createdAt', 'updatedAt']
@@ -105,7 +106,7 @@ router.get('/courses', async (req, res, ) => {
     ],
   })
   res.json(courses)
-  });
+});
 
 router.get('/Courses/:id', async (req, res, next) => {
   try {
