@@ -29,14 +29,6 @@ class App extends React.Component {
                                 </a>
                             </div>
                             
-                            // <ul key={course.id}>
-                            //         <div>{course.id}</div>
-                            //         <div>{course.title}</div>
-                            //         <div>{course.description}</div>
-                            //         <div>{course.estimatedTime}</div>
-                            //     <div>{course.materialsNeeded}</div>
-                            // </ul>
-                            
                         
                         );
                     })
