@@ -3,8 +3,9 @@ import React from 'react';
 import './styles/global.css';
 import Courses from './components/Courses'
 import Header from './components/Header'
-import UserSignUp from './components/UserSignUp';
+import UserSignUp from './components/UserSignUp'
 import UserSignIn from './components/UserSignIn'
+import UserSignOut from './components/UserSignOut'
 import {
   BrowserRouter as Router,
   Route,
@@ -14,21 +15,23 @@ import {
 import withContext from './context';
 //components added with context
 const CourseList = withContext(Courses)
-const HeaderContext = withContext(Header)
-const UserSignUpContext = withContext(UserSignUp);
-const UserSignInContext = withContext(UserSignIn);
+const HeaderWithContext = withContext(Header)
+const UserSignUpWithContext = withContext(UserSignUp)
+const UserSignInWithContext = withContext(UserSignIn)
+const UserSignOutWithContext = withContext(UserSignOut)
 
 
 export default () => (
   <Router>
     <div>
       {/* <Route render={({ location }) => <HeaderContext location={location.pathname} />} /> */}
-      <HeaderContext />
+      <HeaderWithContext />
       
       <Switch>
         <Route exact path="/" component={CourseList} />
-        <Route path="/signup" component={UserSignUpContext} />
-        <Route path="/signin" component={UserSignInContext} />
+        <Route path="/signin" component={UserSignInWithContext} />
+        <Route path="/signup" component={UserSignUpWithContext} />
+        <Route path="/signout" component={UserSignOutWithContext} />
       </Switch>
 
     </div>
