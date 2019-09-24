@@ -7,6 +7,7 @@ class CourseDetail extends Component {
         course: [],
         userInfo: [],
         isUserAuth: null,
+        isLoading: true
     };
 
     /* GET course details from REST API */
@@ -22,14 +23,15 @@ class CourseDetail extends Component {
                 }
                 this.setState({
                     course: course,
-                    userInfo: course.user,
+                    user: course.user,
                     isUserAuth: user,
+                    isLoading: false
                 })
             })
         } else if (res.status === 403) {
             window.location.href = '/forbidden'
         } else if (res.status === 404) {
-            window.location.href = '/notfound' 
+            window.location.href = '/notfound'
         } else if (res.status === 500) {
             window.location.href = '/error'
         } else {
@@ -63,11 +65,11 @@ class CourseDetail extends Component {
         // const { course } = this.state
         // const { userInfo } = this.state
         const { isUserAuth } = this.state
-        //console.log(this.state.course)
+        console.log(this.state)
 
         return (
             <div>
-                {this.state.course ? (
+                {this.state.isLoading ? (<h2>Loading...</h2>) : (
                     <div>
                         <div className="actions--bar">
                             <div className="bounds">
@@ -88,11 +90,11 @@ class CourseDetail extends Component {
                                     <h4 className="course--label">Course</h4>
                                     <h3 className="course--title">{this.state.title}</h3>
                                     <p>
-                                        By {this.state.user.firstName} {this.state.user.lastName}
+                                        By {this.state.course.User.firstName} {this.state.course.User.lastName}
                                     </p>
                                 </div>
                                 <div className="course--description">
-                                    <ReactMarkdown source={this.state.description} />
+                                    <ReactMarkdown source={this.state.course.description} />
                                 </div>
                             </div>
                             <div className="grid-25 grid-right">
@@ -100,12 +102,12 @@ class CourseDetail extends Component {
                                     <ul className="course--stats--list">
                                         <li className="course--stats--list--item">
                                             <h4>Estimated Time</h4>
-                                            <h3>{this.state.estimatedTime}</h3>
+                                            <h3>{this.state.course.estimatedTime}</h3>
                                         </li>
                                         <li className="course--stats--list--item">
                                             <h4>Materials Needed</h4>
                                             <ul>
-                                                <ReactMarkdown source={this.state.materialsNeeded} />
+                                                <ReactMarkdown source={this.state.course.materialsNeeded} />
                                             </ul>
                                         </li>
                                     </ul>
@@ -113,9 +115,8 @@ class CourseDetail extends Component {
                             </div>
                         </div>
                     </div>
-                ) : (
-                        <h3>Loading Course Information..</h3>
-                    )}
+                )
+                }
             </div>
         );
     }
