@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './styles/global.css';
 import Courses from './components/Courses'
@@ -14,6 +14,7 @@ import {
 } from 'react-router-dom';
 
 import withContext from './context';
+import PrivateRoute from './PrivateRoute';
 //components added with context
 const CourseList = withContext(Courses)
 const HeaderWithContext = withContext(Header)
@@ -31,7 +32,7 @@ export default () => (
       
       <Switch>
         <Route exact path="/" component={CourseList} />
-        <PrivateRoute path= "/coursedetail" component={CourseDetailWithContext}></PrivateRoute>
+        <PrivateRoute path= "/coursedetail" component={CourseDetailWithContext} />
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signup" component={UserSignUpWithContext} />
         <Route path="/signout" component={UserSignOutWithContext} />
