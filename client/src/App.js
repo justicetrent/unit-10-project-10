@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 //import logo from './logo.svg';
 import './styles/global.css';
 import Courses from './components/Courses'
 import Header from './components/Header'
-import CourseDetail from '.components/CourseDetail'
+import CourseDetail from './components/CourseDetail'
 import UserSignUp from './components/UserSignUp'
 import UserSignIn from './components/UserSignIn'
 import UserSignOut from './components/UserSignOut'
@@ -11,10 +11,10 @@ import {
   BrowserRouter as Router,
   Route,
   Switch
-} from 'react-router-dom';
+} from 'react-router-dom'
 
-import withContext from './context';
-import PrivateRoute from './PrivateRoute';
+import withContext from './context'
+import PrivateRoute from './PrivateRoute'
 //components added with context
 const CourseList = withContext(Courses)
 const HeaderWithContext = withContext(Header)
@@ -32,7 +32,7 @@ export default () => (
       
       <Switch>
         <Route exact path="/" component={CourseList} />
-        <PrivateRoute path= "/coursedetail" component={CourseDetailWithContext} />
+        <PrivateRoute path= "/courses/:id" component={CourseDetailWithContext} /> 
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signup" component={UserSignUpWithContext} />
         <Route path="/signout" component={UserSignOutWithContext} />
@@ -50,25 +50,3 @@ export default () => (
     
     
     
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     {/* </div>
-//   ); */}
-// }
-
-//export default App;
