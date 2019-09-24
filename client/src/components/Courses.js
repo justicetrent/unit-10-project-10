@@ -25,7 +25,7 @@ class App extends React.Component {
             <div className="container">
                 {this.state.courses.map(course =>
                     <div className="grid-33" key={course.id}>
-                        <a className="course--module course--link" href="course-detail.html">
+                        <a className="course--module course--link" href={"courses/" + (course.id)}>
                             <h4 className="course--label" >{course.title}</h4>
                             <h3 className="course--title" >{course.description}</h3>
                         </a>
