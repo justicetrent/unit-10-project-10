@@ -3,7 +3,7 @@ import React from 'react';
 import './styles/global.css';
 import Courses from './components/Courses'
 import Header from './components/Header'
-//import CourseDetail from '.components/CourseDetail'
+import CourseDetail from '.components/CourseDetail'
 import UserSignUp from './components/UserSignUp'
 import UserSignIn from './components/UserSignIn'
 import UserSignOut from './components/UserSignOut'
@@ -17,6 +17,7 @@ import withContext from './context';
 //components added with context
 const CourseList = withContext(Courses)
 const HeaderWithContext = withContext(Header)
+const CourseDetailWithContext = withContext(CourseDetail)
 const UserSignUpWithContext = withContext(UserSignUp)
 const UserSignInWithContext = withContext(UserSignIn)
 const UserSignOutWithContext = withContext(UserSignOut)
@@ -30,6 +31,7 @@ export default () => (
       
       <Switch>
         <Route exact path="/" component={CourseList} />
+        <PrivateRoute path= "/coursedetail" component={CourseDetailWithContext}></PrivateRoute>
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signup" component={UserSignUpWithContext} />
         <Route path="/signout" component={UserSignOutWithContext} />
