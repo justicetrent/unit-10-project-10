@@ -28,6 +28,8 @@ app.use(cors());
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
+
+app.use(cors());
 //Takes care of all middleware needs and gives access to req.body
 app.use(express.json())
 

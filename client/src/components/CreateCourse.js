@@ -35,7 +35,7 @@ class CreateCourse extends Component {
         data.userId = authUserId;
 
         /* API POST request */
-        const res = await this.props.context.data.api(`/courses/${this.props.match.params.id}`, 'POST');
+        const res = await context.data.api("/courses", "POST", data, true, { emailAddress, password });
         console.log(emailAddress);
         console.log(password);
         if (res.status === 200 || res.status === 201) {     // if status 200 or 201, redirect user to main page 

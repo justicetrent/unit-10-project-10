@@ -67,7 +67,7 @@ router.get('/users', authenticateUser, async (req, res, ) => {
     {
       // Excludes unneeded private information 
       attributes: {
-        exclude: ['password', 'createdAt', 'updatedAt']
+        exclude: [ 'createdAt', 'updatedAt']
       }
     }
   )
@@ -96,7 +96,7 @@ router.get('/courses', async (req, res, ) => {
 
     // Excludes unneeded private information 
     attributes: {
-      exclude: ['password', 'createdAt', 'updatedAt']
+      exclude: ['createdAt', 'updatedAt']
     },
     include: [
       {
@@ -135,7 +135,7 @@ router.get('/Courses/:id', async (req, res, next) => {
 
 // Post Route with authentication for Course titles
 
-router.post('/Courses', authenticateUser, async (req, res, next) => {
+router.post('/Courses', async (req, res, next) => {
   try {
     if (req.body.title && req.body.description) {
       const newCourse = await Courses.create(req.body)
@@ -153,7 +153,7 @@ router.post('/Courses', authenticateUser, async (req, res, next) => {
 
 // Delete course route with user authentication 
 
-router.delete("/courses/:id", authenticateUser, async (req, res, next) => {
+router.delete("/courses/:id", async (req, res, next) => {
   try {
     const courseDelete = await Courses.findByPk(req.params.id)
     if (courseDelete.userId === req.body.userId) {
@@ -169,7 +169,7 @@ router.delete("/courses/:id", authenticateUser, async (req, res, next) => {
 })
 
 //Put course route with user authentication 
-router.put('/courses/:id', authenticateUser, async (req, res, next) => {
+router.put('/courses/:id', async (req, res, next) => {
   try {
     const courseUpdate = await Courses.findByPk(req.params.id);
     if (courseUpdate.userId === req.body.userId) {
