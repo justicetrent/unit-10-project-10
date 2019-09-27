@@ -26,40 +26,32 @@ class UpdateCourse extends Component {
     }
 
     /* API GET request */
-    // async componentDidMount() {
-    //     const res = await this.props.context.data.api(`/courses/${this.props.match.params.id}`, 'GET');
+    async componentDidMount() {
+        const res = await this.props.context.data.api(`/courses/${this.props.match.params.id}`, 'GET');
 
-    //     if (res.status === 200) {       // if status is 200, return course details 
-    //         return res.json().then(course => this.setState({
-    //             title: course.title,
-    //             description: course.description,
-    //             estimatedTime: course.estimatedTime,
-    //             materialsNeeded: course.materialsNeeded,
-    //             userId: course.userId,
-    //             // title: course.course.title,
-    //             // description: course.course.description,
-    //             // estimatedTime: course.course.estimatedTime,
-    //             // materialsNeeded: course.course.materialsNeeded,
-    //             // userId: course.course.userId,
-    //         }));
-    //     } else if (res.status === 404) {        // if status is 404, display page not found message
-    //         window.location.href = '/notfound';
-    //     } else if (res.status === 500) {       // if status is 500, display error message
-    //         window.location.href = '/error';
-    //     } else {
-    //         throw new Error();
-    //     }
-    // }
-
-    componentDidUpdate() {
-        const { context } = this.props;
-        const authUser = context.authenticatedUser;
-        const courseUserId = this.state.userId;
-        if (authUser.id !== courseUserId) {
-            window.location.href = '/forbidden';
+        if (res.status === 200) {       // if status is 200, return course details 
+            return res.json().then(course => this.setState({
+                title: course.title,
+                description: course.description,
+                estimatedTime: course.estimatedTime,
+                materialsNeeded: course.materialsNeeded,
+                userId: course.userId,
+                // title: course.course.title,
+                // description: course.course.description,
+                // estimatedTime: course.course.estimatedTime,
+                // materialsNeeded: course.course.materialsNeeded,
+                // userId: course.course.userId,
+            }));
+        } else if (res.status === 404) {        // if status is 404, display page not found message
+            window.location.href = '/notfound';
+        } else if (res.status === 500) {       // if status is 500, display error message
+            window.location.href = '/error';
+        } else {
+            throw new Error();
         }
     }
 
+   
     /* update course handler */
     handleUpdate = async (e) => {
         e.preventDefault();
