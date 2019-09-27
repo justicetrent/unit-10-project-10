@@ -63,14 +63,14 @@ export default class UserSignIn extends Component {
                                     id="emailAddress"
                                     name="emailAddress"
                                     type="text"
-                                    value={emailAddress}
+                                    value={this.state.emailAddress}
                                     onChange={this.change}
                                     placeholder="Email" />
                                 <input
                                     id="password"
                                     name="password"
                                     type="password"
-                                    value={password}
+                                    value={this.state.password}
                                     onChange={this.change}
                                     placeholder="Password" />
                             </React.Fragment>
@@ -82,7 +82,7 @@ export default class UserSignIn extends Component {
             </div>
         );
     }
-    
+
     cancel = () => {
         this.props.history.push('/');
     }

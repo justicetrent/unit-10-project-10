@@ -44,7 +44,7 @@ class CourseDetail extends Component {
         const { context } = this.props
         const authUser = context.authenticatedUser
         const emailAddress = authUser.emailAddress
-        const password = authUser.password
+        const password = context.userPassword;
 
         if (window.confirm('Are you sure you want to delete this course?')) {
             const res = await context.data.api(`/courses/${this.props.match.params.id}`, 'DELETE', null, true, { emailAddress, password });  // calls api() method to delete course
@@ -88,7 +88,7 @@ class CourseDetail extends Component {
                             <div className="grid-66">
                                 <div className="course--header">
                                     <h4 className="course--label">Course</h4>
-                                    <h3 className="course--title">{this.state.title}</h3>
+                                    <h3 className="course--title">{this.state.course.title}</h3>
                                     <p>
                                         By {this.state.course.User.firstName} {this.state.course.User.lastName}
                                     </p>

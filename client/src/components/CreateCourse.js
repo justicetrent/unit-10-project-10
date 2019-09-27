@@ -30,14 +30,14 @@ class CreateCourse extends Component {
         const authUser = context.authenticatedUser;
         const authUserId = authUser.id;
         const emailAddress = authUser.emailAddress;
-        const password = authUser.password;
+        const password = context.userPassword;
         const data = this.state;
         data.userId = authUserId;
 
         /* API POST request */
         const res = await context.data.api("/courses", "POST", data, true, { emailAddress, password });
-        console.log(emailAddress);
-        console.log(password);
+        //console.log(emailAddress);
+        //console.log(password);
         if (res.status === 200 || res.status === 201) {     // if status 200 or 201, redirect user to main page 
             window.location.href = '/';
         } else if (res.status === 400) {     // status 400, display error message

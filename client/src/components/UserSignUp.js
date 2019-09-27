@@ -24,6 +24,17 @@ export default class UserSignUp extends Component {
             <div className="bounds">
                 <div className="grid-33 centered signin">
                     <h1>Sign Up</h1>
+                    {
+                        this.state.errors.length ?
+                            <div>
+                                <h2 className="validation--errors--label">Error creating account:</h2>
+                                <div className="validation-errors">
+                                    <ul>
+                                        {this.state.errors.map((error, i) => <li key={i}>{error}</li>)}
+                                    </ul>
+                                </div>
+                            </div> : null
+                    }
                     <Form
                         cancel={this.cancel}
                         errors={errors}
@@ -35,28 +46,28 @@ export default class UserSignUp extends Component {
                                     id="firstName"
                                     name="firstName"
                                     type="text"
-                                    value={firstName}
+                                    value={this.state.firstName}
                                     onChange={this.change}
                                     placeholder="First" />
                                 <input
                                     id="lastName"
                                     name="lastName"
                                     type="text"
-                                    value={lastName}
+                                    value={this.state.lastName}
                                     onChange={this.change}
                                     placeholder="Last" />
                                 <input
                                     id="emailAddress"
                                     name="emailAddress"
                                     type="text"
-                                    value={emailAddress}
+                                    value={this.state.emailAddress}
                                     onChange={this.change}
                                     placeholder="Email" />
                                 <input
                                     id="password"
                                     name="password"
                                     type="password"
-                                    value={password}
+                                    value={this.state.password}
                                     onChange={this.change}
                                     placeholder="Password" />
                             </React.Fragment>
@@ -97,12 +108,14 @@ export default class UserSignUp extends Component {
             password,
         };
 
-        
+
 
         context.data.createUser(user)
             .then(errors => {
-                if (errors.length) {
-                    this.setState({ errors });
+                if (errors.length === null) {
+                    this.setState(() => {
+                        return { errors: ['Sign-up was unsuccessful']}
+                    });
                 } else {
                     context.actions.signIn(emailAddress, password)
                         .then(() => {
