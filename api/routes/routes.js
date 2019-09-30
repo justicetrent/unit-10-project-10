@@ -207,7 +207,7 @@ router.put('/courses/:id', authenticateUser, async (req, res, next) => {
       res.status(404).json({
         message: 'Course does not exist'
       });
-    }
+  }
     if (courseUpdate.userId === req.currentUser.id) {
       if (req.body.title && req.body.description) {
         courseUpdate.update(req.body);
