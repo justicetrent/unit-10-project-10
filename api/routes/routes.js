@@ -160,14 +160,14 @@ router.get('/Courses/:id', async (req, res, next) => {
 
 // Post Route with authentication for Course titles
 
-router.post('/Courses', authenticateUser, async (req, res, next) => {
+router.post('/Courses', async (req, res, next) => {
   try {
     if (req.body.title && req.body.description) {
       const newCourse = await Courses.create(req.body)
       res.location(`/api/course/${newCourse.id}`)
       res.status(201).end()
     } else {
-      res.status(404).json({
+      res.status(400).json({
         message: 'User needs to provide a title and a description',
       });
     }
@@ -175,7 +175,7 @@ router.post('/Courses', authenticateUser, async (req, res, next) => {
   }
   catch (error) {
     console.log(error)
-    res.status(404).json({
+    res.status(500).json({
       message: error.errors,
     });
   }
@@ -183,15 +183,15 @@ router.post('/Courses', authenticateUser, async (req, res, next) => {
 
 // Delete course route with user authentication 
 
-router.delete("/courses/:id", authenticateUser, async (req, res, next) => {
+router.delete("/courses/:id", async (req, res, next) => {
   try {
     const courseDelete = await Courses.findByPk(req.params.id)
-    if (courseDelete.userId === req.currentUser.id) {
-      await courseDelete.destroy();
-      res.status(204).end();
-    } else {
-      res.status(403).end();
-    };
+    // if (courseDelete.userId === req.currentUser.id) {
+    await courseDelete.destroy();
+    res.status(204).end();
+    // } else {
+    //   res.status(403).end();
+    // };
   }
   catch (err) {
     console.log("Forbidden: you are not the correct user");
@@ -200,28 +200,29 @@ router.delete("/courses/:id", authenticateUser, async (req, res, next) => {
 })
 
 //Put course route with user authentication 
-router.put('/courses/:id', authenticateUser, async (req, res, next) => {
+router.put('/courses/:id', async (req, res, next) => {
   try {
     const courseUpdate = await Courses.findByPk(req.params.id);
     if (courseUpdate === null) {
-      res.status(404).json({
+      console.log('update the course!')
+      res.status(783).json({
         message: 'Course does not exist'
       });
-  }
-    if (courseUpdate.userId === req.currentUser.id) {
-      if (req.body.title && req.body.description) {
-        courseUpdate.update(req.body);
-        res.status(204).end()
-      } else {
-        res.status(400).json({
-          message: 'User needs to provide a title and a description',
-        });
-      }
-
-    } else
-      res.status(401).json({
-        message: 'user not authorized to update this course',
+    }
+    // if (courseUpdate.userId === req.currentUser.id) {
+    if (req.body.title && req.body.description) {
+      courseUpdate.update(req.body);
+      res.status(204).end()
+    } else {
+      res.status(400).json({
+        message: 'User needs to provide a title and a description',
       });
+    }
+
+    // } else
+    //   res.status(401).json({
+    //     message: 'user not authorized to update this course',
+    //   });
   } catch (error) {
     console.log(error)
     res.status(404).json({
