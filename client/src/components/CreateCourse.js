@@ -40,12 +40,12 @@ class CreateCourse extends Component {
         //console.log(password);
         if (res.status === 200 || res.status === 201) {     // if status 200 or 201, redirect user to main page 
             window.location.href = '/';
-        } else if (res.status === 400) {     // status 400, display error message
-            this.setState({
-                errors: ['Please check that all field inputs are correct']
-            })
-            return;
-        } else if (res.status === 401 || res.status === 403) {     // if status 401 or 403 display forbidden message
+        // } else if (res.status === 400) {     // status 400, display error message
+        //     this.setState({
+        //         errors: ['Please check that all field inputs are correct']
+        //     })
+        //     return;
+         } else if (res.status === 401 || res.status === 403) {     // if status 401 or 403 display forbidden message
             window.location.href = '/forbidden';
         } else {
             window.location.href = '/error';      // display error page

@@ -99,13 +99,13 @@ export default class UserSignUp extends Component {
             emailAddress,
             password,
         } = this.state;
-        if (firstName === '' || lastName === '' || emailAddress === '' || password === '' ) {
-            this.setState({
-                errors: ["Missing information - Please check all fields are entered correctly"]
-            })
-            return;
+        // if (firstName === '' || lastName === '' || emailAddress === '' || password === '' ) {
+        //     this.setState({
+        //         errors: ["Missing information - Please check all fields are entered correctly"]
+        //     })
+        //     return;
 
-        }
+        // }
 
         // Create user
         const user = {

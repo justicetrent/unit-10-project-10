@@ -9,6 +9,8 @@ import UpdateCourse from './components/UpdateCourse'
 import UserSignUp from './components/UserSignUp'
 import UserSignIn from './components/UserSignIn'
 import UserSignOut from './components/UserSignOut'
+import Error from './components/Error'
+import Forbidden from './components/Forbidden'
 import {
   BrowserRouter as Router,
   Route,
@@ -26,6 +28,8 @@ const UpdateCourseWithContext = withContext(UpdateCourse)
 const UserSignUpWithContext = withContext(UserSignUp)
 const UserSignInWithContext = withContext(UserSignIn)
 const UserSignOutWithContext = withContext(UserSignOut)
+const ErrorWithContext = withContext(Error)
+const ForbiddenWithContext = withContext(Forbidden)
 
 
 export default () => (
@@ -42,6 +46,8 @@ export default () => (
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signup" component={UserSignUpWithContext} />
         <Route path="/signout" component={UserSignOutWithContext} />
+        <Route path="/error" component={ErrorWithContext} />
+        <Route path="/forbidden" component={ForbiddenWithContext} />
       </Switch>
 
     </div>
