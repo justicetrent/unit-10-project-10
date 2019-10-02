@@ -68,12 +68,14 @@ class UpdateCourse extends Component {
         if (res.status === 204) {       // if status is 204, display updated course
             this.setState({ errors: [] });
             window.location.href = `/courses/${this.props.match.params.id}`;
-                } else if (res.status === 401 || res.status === 403) {      // if status is 401 or 403, display forbidden page
-                window.location.href = '/forbidden';
-                } else {
-                    window.location.href = '/error';
-                }
-            }
+
+        } else if (res.status === 400) {    // if status is 400, display error message
+            window.location.href = '/error'
+            return;
+        } else if (res.status === 401 || res.status === 403) {      // if status is 401 or 403, display forbidden page
+               window.location.href = '/forbidden';
+            } 
+        }
 
     render() {
         return (
